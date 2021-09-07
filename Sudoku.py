@@ -1,6 +1,7 @@
 # This is a Sudoku puzzle solver that takes a starter board and solves it
 # v1.0 text-based default starter board
-# v2.0 implement next_empty function which finds next empty cell. Add solve method
+# v2.0 implement next_empty function which finds next empty cell. Add solve function
+# v3.0 implement check function. Program now takes a starter text-based Sudoku board and solves it recursively
 
 # default board
 # each array has 9 digits 0-9. Numbers cannot repeat within array or within same row or column across the board
@@ -33,7 +34,7 @@ def print_board(b):
 
             # print vertical dividers every 3rd column to show distinction between arrays
             if j % 3 == 0 and j != 0:
-                print(" | ", end=" ")
+                print("|", end=" ")
 
             # prints the elements of board arrays
             if j != 8:
@@ -92,15 +93,49 @@ def solve(b):
 #
 # returns False if num does breaks any rules in given pos
 # returns True otherwise
-#
-# returns False by default in v2.0
 def check(b, num, pos):
-    return False
+
+    # check row
+    # iterates i through length of the array b[0] and checks if cell b[row][i] == num while i != pos[1] (itself)
+    # if b[row][i] matches num, the num is already in the row, and the function returns False
+    for i in range(len(b[0])):
+        if b[pos[0]][i] == num and i != pos[1]:
+            return False
+
+    # check column
+    # iterates i through length of the board b and checks if cell b[i][column] == num while i != pos[0] (itself)
+    # if b[i][column] matches num, the num is already in the column, and the function returns False
+    for i in range(len(b)):
+        if b[i][pos[1]] == num and i != pos[0]:
+            return False
+
+    # check box
+    # identify box by taking cell row, column mod 3 * 3. Save in box_x and box_y variables
+    # iterates i through box_y to box_y + 3, representing each row in the box that contains the cell
+    # iterates j through box_x to box_x + 3, representing each column in the box that contains the cell
+    # if b[i][j] == num while (i,j) is not equal to the input pos (itself), num already in box, return False
+    box_x = (pos[1] // 3) * 3
+    box_y = (pos[0] // 3) * 3
+
+    for i in range(box_y, box_y + 3):
+        for j in range(box_x, box_x + 3):
+            if b[i][j] == num and (i, j) != pos:
+                return False
+
+    return True
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print("Starter board:")
+    print_board(board)
+    print()
+
+    print("Solving...")
+    print()
+    solve(board)
+
+    print("Solution")
     print_board(board)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
