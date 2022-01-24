@@ -20,14 +20,65 @@ class Grid:
 
 
     # __init__
+    def __init__(self, rows, columns, width, height):
+        self.rows = rows
+        self.columns = columns
+        self.width = width
+        self.height = height
+        # initializes all cubes for each i, j index in rows, columns
+        self.cubes = [[Cube(self.board[i][j], i, j, width, height) for j in range(columns)] for i in range(rows)]
+        self.model = None
+        self.selected = None
 
     # update
+    def update(self):
+        self.model = [[self.cubes[i][j].value for j in range(self.cols)] for i in range (self.rows)]
 
     # place
+    def place(self, val):
+        # row = row of selected cell
+        # col = column of selected cell
+        row, col = self.selected
+
+        # if selected cell = 0 (blank), set cell to val
+        if self.cubes[row][col].value == 0:
+            self.cubes[row][col].set(val)
+            self.update_model()
+
+            if valid(self.model, val, (row, col)) and solve(self.model):
+                return True
+            else:
+                self.cubes[row][col].set(0)
+                self.cubes[row][col].set_temp(0)
+                self.update()
+                return False
+
 
     # sketch
+    def sketch(selfself, val):
+        row, col = self.selected
+        self.cubes[row][col].set_temp(val)
+        
 
     # draw
+    # draws the grid outline
+    # gap = width of grid / number of columns (9)
+    # thickness = thickness of grid line
+    # win = surface to draw on
+    def draw(self, win):
+        gap = self.width / 9
+        for i in range(self.rows + 1):
+            if i % 3 == 0 and i != 0:
+                thickness = 4 # bold line to separate blocks of 9 cubes
+            else:
+                thickness = 1 # thin lines for all other lines in grid
+
+            # draw column lines
+            # line(surface, color, start_pos, end_pos, width)
+            # (0, 0, 0) =
+            pygame.draw.line(win, (0, 0, 0), (0, i * gap), (self.width, i * gap), thickness)
+            #draw row lines
+            pygame.draw.line(win, (0, 0, 0), (i * gap, 0), (i * gap, self.height), thickness)
 
     # select
 
@@ -39,7 +90,21 @@ class Grid:
 
 class Cube:
 
+    rows = 9
+    columns = 9
+
     # __init__
+    # value = numeric value in cell
+    # row, column = position of cell
+    # width, height = dimensions of cell
+    # selected = boolean whether cell is clicked by user
+    def __init__(self, value, row, column, width, height):
+        self.value = value
+        self.row = row
+        self.column = column
+        self.width = width
+        self. height = height
+        self.selected = False # cell is not selected when initialized
 
     # draw
 
