@@ -81,13 +81,22 @@ class Grid:
             pygame.draw.line(win, (0, 0, 0), (i * gap, 0), (i * gap, self.height), thickness)
 
     # select
+    def select(self, row, col):
+        # deselect all cells
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.cubes[i][j].selected = False
+
+        # select row, col cell
+        self.cubes[row][col].selected = True
+        self.selected = (row, col)
 
     # clear
     def clear(self):
         row, col = self.selected
         if self.cubes[row][col].value == 0:
             self.cubes[row][col].set_temp(0)
-            
+
     # click
 
     # is_finished
