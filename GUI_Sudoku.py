@@ -99,7 +99,16 @@ class Grid:
 
     # click
 
+
     # is_finished
+    # iterates through all cells in cubes and returns false if the value is 0
+    # if there are no 0 values, return true, meaning the puzzle is finished
+    def is_finished(self):
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.cubes[i][j].value == 0:
+                    return False
+        return True
 
 class Cube:
 
