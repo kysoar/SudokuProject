@@ -98,6 +98,15 @@ class Grid:
             self.cubes[row][col].set_temp(0)
 
     # click
+    # returns the (row, col) of the click
+    def clear(self, pos):
+        if pos[0] < self.width and pos[1] < self.height:
+            gap = self.width / 9
+            x = pos[0] // gap
+            y = pos[1] // gap
+            return (int(y), int(x))
+        else:
+            return None
 
 
     # is_finished
