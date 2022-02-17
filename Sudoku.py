@@ -27,7 +27,7 @@ def print_board(b):
 
         # prints horizontal dividers every 3rd row to show distinction between arrays
         if i % 3 == 0 and i != 0:
-            print("- - - - - - - - - - - - - ")
+            print("- - - - - - - - - - -")
 
         # iterates through 0-8 to populate board
         for j in range(len(b[0])):
@@ -137,5 +137,3 @@ if __name__ == '__main__':
 
     print("Solution")
     print_board(board)
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
