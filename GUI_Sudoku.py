@@ -166,8 +166,21 @@ class Cube:
 
 
 # redraw_window
+def redraw_window(win, board, time, strikes):
+    win.fill((255,255,255))
+    fnt = pygame.font.SysFont("comicsans", 38)
+    text = fnt.render("Time: " + format_time(time), 1, (0,0,0))
+    win.blit(text, (540 - 160, 560))
+    text = fnt.render("X " * strikes, 1, (255, 0, 0))
+    win.blit(text, (20, 560))
+    board.draw(win)
 
 # format_time
+def format_time(secs):
+    sec, minute, hour = secs % 60, secs // 60, minute // 60
+    mat = " " + str(minute) + ":" + str(sec)
+    return mat
+
 
 def main()
 
